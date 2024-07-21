@@ -11,6 +11,8 @@ const home = () => {
   const clubLoadingElement =
     clubListContainerElement.querySelector(".search-loading");
   const clubListElement = clubListContainerElement.querySelector("club-list");
+  const clubSearchErrorElement =
+    clubListContainerElement.querySelector("club-search-error");
 
   const showSportClub = (query) => {
     showLoading();
@@ -21,8 +23,8 @@ const home = () => {
         showClubList();
       })
       .catch((error) => {
-        console.error(error);
-        showQueryWaiting();
+        clubSearchErrorElement.textContent = error.message;
+        showSearchError();
       });
   };
 
@@ -62,6 +64,13 @@ const home = () => {
       Utils.hideElement(element);
     });
     Utils.showElement(clubQueryWaitingElement);
+  };
+
+  const showSearchError = () => {
+    Array.from(clubListContainerElement.children).forEach((element) => {
+      Utils.hideElement(element);
+    });
+    Utils.showElement(clubSearchErrorElement);
   };
 
   searchFormElement.addEventListener("search", onSearchHandler);
